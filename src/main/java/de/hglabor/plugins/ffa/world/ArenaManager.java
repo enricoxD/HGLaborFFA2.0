@@ -12,10 +12,12 @@ import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import de.hglabor.plugins.ffa.Main;
 import de.hglabor.plugins.ffa.gamemechanics.Feast;
+import de.hglabor.plugins.ffa.kit.KitSelectorFFA;
 import de.hglabor.plugins.ffa.player.FFAPlayer;
 import de.hglabor.plugins.ffa.player.PlayerList;
 import de.hglabor.plugins.ffa.util.HideUtils;
 import de.hglabor.plugins.kitapi.kit.AbstractKit;
+import de.hglabor.plugins.kitapi.kit.KitSelector;
 import de.hglabor.plugins.kitapi.util.ItemBuilder;
 import de.hglabor.plugins.kitapi.util.WorldEditUtils;
 import org.bukkit.*;
@@ -60,14 +62,14 @@ public class ArenaManager {
     public void prepareKitSelection(Player player) {
         FFAPlayer ffaPlayer = PlayerList.getInstance().getPlayer(player);
 
-       /* ffaPlayer.setStatus(NEW);
-        ffaPlayer.setKills(0);
-        ffaPlayer.getKits().forEach(kit -> kit.disable(player));
+        ffaPlayer.setStatus(FFAPlayer.Status.KITSELECTION);
+        ffaPlayer.getKits().forEach(kit -> kit.disable(ffaPlayer));
+       /* ffaPlayer.setKills(0);
         ffaPlayer.setKits(KitManager.emptyKitList());
         ffaPlayer.stopCombatTimer();
         ffaPlayer.setKitCooldowns(new HashMap<>());
         ffaPlayer.setKitCooldownStarts(new HashMap<>());
-        ffaPlayer.setKitAttributes(new HashMap<>()); */
+        ffaPlayer.setKitAttributes(new HashMap<>());  */
 
         HideUtils.hideToInGamePlayers(player);
         HideUtils.showPlayersInKitSelection(player);
@@ -89,7 +91,7 @@ public class ArenaManager {
         player.closeInventory();
         player.getInventory().clear();
 
-        //TODO:  KitSelector.getKIT_SELECTOR_ITEM().forEach(kitSelector -> player.getInventory().addItem(kitSelector));
+        KitSelectorFFA.getInstance().getKitSelectorItems().forEach(kitSelector -> player.getInventory().addItem(kitSelector));
 
         Location location = randomSpawn(40).clone().add(0, 20, 0);
         player.teleport(location);
