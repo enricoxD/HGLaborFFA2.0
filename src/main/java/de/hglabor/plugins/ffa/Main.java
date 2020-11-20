@@ -2,6 +2,9 @@ package de.hglabor.plugins.ffa;
 
 import de.hglabor.plugins.ffa.config.Config;
 import de.hglabor.plugins.ffa.gamemechanics.Feast;
+import de.hglabor.plugins.ffa.kit.KitItemListener;
+import de.hglabor.plugins.ffa.kit.KitAbilityListener;
+import de.hglabor.plugins.ffa.kit.KitSelectorFFA;
 import de.hglabor.plugins.ffa.listener.FFADeathListener;
 import de.hglabor.plugins.ffa.listener.FFAJoinListener;
 import de.hglabor.plugins.ffa.listener.FFAQuitListener;
@@ -35,6 +38,9 @@ public final class Main extends JavaPlugin {
 
     private void registerListeners() {
         PluginManager pluginManager = Bukkit.getPluginManager();
+        pluginManager.registerEvents(KitSelectorFFA.getInstance(), this);
+        pluginManager.registerEvents(new KitAbilityListener(), this);
+        pluginManager.registerEvents(new KitItemListener(), this);
         pluginManager.registerEvents(new FFAJoinListener(), this);
         pluginManager.registerEvents(new FFAQuitListener(), this);
         pluginManager.registerEvents(new FFADeathListener(), this);

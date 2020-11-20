@@ -1,8 +1,11 @@
 package de.hglabor.plugins.ffa.listener;
 
+import de.hglabor.plugins.ffa.Main;
 import de.hglabor.plugins.ffa.player.FFAPlayer;
 import de.hglabor.plugins.ffa.player.PlayerData;
 import de.hglabor.plugins.ffa.player.PlayerList;
+import de.hglabor.plugins.kitapi.kit.AbstractKit;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -34,14 +37,23 @@ public class FFADeathListener implements Listener {
         List<ItemStack> itemsToDrop = new ArrayList<>(event.getDrops());
 
         //REMOVE KIT ITEMS FROM DROP
-        ffaPlayer.getKits().stream().<Consumer<? super ItemStack>>map(kit -> drop -> kit.getKitItems().stream().filter(drop::isSimilar).map(kitItem -> drop).forEach(itemsToDrop::remove)).forEach(playerItems::forEach);
+        for (AbstractKit kit : ffaPlayer.getKits()) {
+            Consumer<? super ItemStack> itemStackConsumer = drop -> {
+                for (ItemStack kitItem : kit.getKitItems()) {
+                    if (drop.isSimilar(kitItem)) {
+                        itemsToDrop.remove(drop);
+                    }
+                }
+            };
+            playerItems.forEach(itemStackConsumer);
+        }
 
         itemsToDrop.forEach(drop -> world.dropItem(player.getLocation(), drop));
         world.dropItem(player.getLocation(), new ItemStack(Material.RED_MUSHROOM, 16));
         world.dropItem(player.getLocation(), new ItemStack(Material.BROWN_MUSHROOM, 16));
         world.dropItem(player.getLocation(), new ItemStack(Material.BOWL, 16));
 
-       //TODO: Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> ((FFAPhase) Main.getPhase()).getArenaWorldLogic().prepareFFAKitSelection(player), 0);
+        Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> Main.getArenaManager().prepareKitSelection(player), 0);
     }
 }
 
