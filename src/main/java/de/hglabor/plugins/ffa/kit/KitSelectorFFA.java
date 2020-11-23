@@ -1,7 +1,6 @@
 package de.hglabor.plugins.ffa.kit;
 
 
-import com.google.common.collect.ImmutableMap;
 import de.hglabor.plugins.ffa.Main;
 import de.hglabor.plugins.ffa.player.FFAPlayer;
 import de.hglabor.plugins.ffa.player.PlayerList;
@@ -9,7 +8,7 @@ import de.hglabor.plugins.kitapi.kit.AbstractKit;
 import de.hglabor.plugins.kitapi.kit.KitManager;
 import de.hglabor.plugins.kitapi.kit.KitSelector;
 import de.hglabor.plugins.kitapi.kit.kits.NoneKit;
-import de.hglabor.plugins.kitapi.util.Localization;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,6 +22,10 @@ public class KitSelectorFFA extends KitSelector implements Listener {
 
     private KitSelectorFFA() {
         super();
+    }
+
+    public static KitSelectorFFA getInstance() {
+        return instance;
     }
 
     @EventHandler
@@ -53,14 +56,15 @@ public class KitSelectorFFA extends KitSelector implements Listener {
             if (lastPage(inventoryTitle, clickedItem, player)) {
                 return;
             }
-            ItemStack kitSelector = player.getActiveItem();
+            ItemStack kitSelector = getKitSelector(player);
+            Bukkit.broadcastMessage(kitSelector.toString());
             AbstractKit kit = KitManager.getInstance().byItem(clickedItem);
             if (kitSelector != null && isKitSelectorItem(kitSelector)) {
                 int index = Integer.parseInt(kitSelector.getItemMeta().getDisplayName().substring(kitSelector.getItemMeta().getDisplayName().length() - 1)) - 1;
                 FFAPlayer ffaPlayer = PlayerList.getInstance().getPlayer(player);
                 ffaPlayer.setKit(kit, index);
                 player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, 1, 1);
-                player.sendMessage(Localization.getMessage("kitSelection.pickMessage", ImmutableMap.of("kitName", kit.getName()), ffaPlayer.getLocale()));
+                //TODO: player.sendMessage(Localization.getMessage("kitSelection.pickMessage", ImmutableMap.of("kitName", kit.getName()), ffaPlayer.getLocale()));
                 player.closeInventory();
                 if (ffaPlayer.getKits().stream().noneMatch(kits -> kits.equals(NoneKit.getInstance()))) {
                     Main.getArenaManager().teleportToArena(player);
@@ -69,7 +73,14 @@ public class KitSelectorFFA extends KitSelector implements Listener {
         }
     }
 
-    public static KitSelectorFFA getInstance() {
-        return instance;
+    private ItemStack getKitSelector(Player player) {
+        for (ItemStack kitSelectorItem : kitSelectorItems) {
+            if (kitSelectorItem.isSimilar(player.getInventory().getItemInMainHand())) {
+                return player.getInventory().getItemInMainHand();
+            } else if (kitSelectorItem.isSimilar(player.getInventory().getItemInOffHand())) {
+                return player.getInventory().getItemInOffHand();
+            }
+        }
+        return null;
     }
 }

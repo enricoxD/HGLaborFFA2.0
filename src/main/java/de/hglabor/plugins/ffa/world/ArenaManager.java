@@ -42,11 +42,11 @@ public class ArenaManager {
     private Feast feast;
 
     public ArenaManager(World world, int mapSize) {
+        this.world = world;
         this.size = mapSize;
         this.center = new Location(world, 0, 0, 0);
         this.schematic = new File(Main.getPlugin().getDataFolder().getAbsolutePath() + "/arena.schem");
         this.feast = new Feast(world, randomSpawn(50), 20, 300, Material.GRASS_BLOCK);
-        this.world = world;
         this.world.setTime(1000);
         this.world.setWeatherDuration(0);
         this.world.setThundering(false);
@@ -71,8 +71,8 @@ public class ArenaManager {
         ffaPlayer.setKitCooldownStarts(new HashMap<>());
         ffaPlayer.setKitAttributes(new HashMap<>());  */
 
-        HideUtils.hideToInGamePlayers(player);
-        HideUtils.showPlayersInKitSelection(player);
+        HideUtils.getInstance().hideToInGamePlayers(player);
+        HideUtils.getInstance().showPlayersInKitSelection(player);
 
         player.setMaxHealth(20);
         player.setHealth(player.getMaxHealth());
@@ -100,8 +100,8 @@ public class ArenaManager {
     public void teleportToArena(Player player) {
         FFAPlayer ffaPlayer = PlayerList.getInstance().getPlayer(player);
         ffaPlayer.setStatus(FFAPlayer.Status.ARENA);
-        HideUtils.hidePlayersInKitSelection(player);
-        HideUtils.makeVisibleToInGamePlayers(player);
+        HideUtils.getInstance().hidePlayersInKitSelection(player);
+        HideUtils.getInstance().makeVisibleToInGamePlayers(player);
         player.setGameMode(GameMode.SURVIVAL);
         player.setAllowFlight(false);
         player.setFlying(false);

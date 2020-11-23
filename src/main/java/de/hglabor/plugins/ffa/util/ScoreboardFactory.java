@@ -24,9 +24,8 @@ public final class ScoreboardFactory {
             setBasicScoreboardLayout(scoreboardPlayer);
         }
         Player player = scoreboardPlayer.getPlayer();
-        if (player != null) {
-            player.setScoreboard(scoreboardPlayer.getScoreboard());
-        }
+        player.setScoreboard(scoreboardPlayer.getScoreboard());
+        System.out.println("Bekommt scoreboard lol");
     }
 
     private static void setBasicScoreboardLayout(ScoreboardPlayer scoreboardPlayer) {
@@ -76,13 +75,13 @@ public final class ScoreboardFactory {
     }
 
     public interface ScoreboardPlayer {
-        void setScoreboard(Scoreboard scoreboard);
-
-        void setObjective(Objective objective);
-
         Scoreboard getScoreboard();
 
+        void setScoreboard(Scoreboard scoreboard);
+
         Objective getObjective();
+
+        void setObjective(Objective objective);
 
         Locale getLocale();
 

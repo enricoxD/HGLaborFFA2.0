@@ -31,7 +31,7 @@ public final class ScoreboardManager extends BukkitRunnable {
                                 (kitDisabled ? ChatColor.STRIKETHROUGH : ChatColor.RESET) + kit.getName() +
                                 "(" + (copiedKit != null ? ((Kit) ffaPlayer.getKitAttribute(copycat)).getName() : "None") + ")", ""); */
                     } else {
-                        ScoreboardFactory.updateEntry(ffaPlayer, "kitValue" + index, ChatColor.BLUE + "" + ChatColor.BOLD + "Kit" + (KitApiConfig.getInstance().getInteger("kit.amount") == 1 ? "" : index) + ": " + ChatColor.RESET + (kitDisabled ? ChatColor.STRIKETHROUGH : ChatColor.RESET) + kit.getName(), "");
+                     //TODO:   ScoreboardFactory.updateEntry(ffaPlayer, "kitValue" + index, ChatColor.BLUE + "" + ChatColor.BOLD + "Kit" + (KitApiConfig.getInstance().getInteger("kit.amount") == 1 ? "" : index) + ": " + ChatColor.RESET + (kitDisabled ? ChatColor.STRIKETHROUGH : ChatColor.RESET) + kit.getName(), "");
                     }
                     index++;
                 }

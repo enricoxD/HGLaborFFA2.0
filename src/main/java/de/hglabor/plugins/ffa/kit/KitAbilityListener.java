@@ -4,6 +4,7 @@ import de.hglabor.plugins.ffa.player.PlayerList;
 import de.hglabor.plugins.kitapi.kit.AbstractKit;
 import de.hglabor.plugins.kitapi.kit.KitEventHandler;
 import de.hglabor.plugins.kitapi.player.KitPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,7 +17,7 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
     }
 
     @EventHandler
-    public void onPlayerAttacksLivingEntity(EntityDamageByEntityEvent event, KitPlayer attacker, LivingEntity entity) {
+    public void onPlayerAttacksLivingEntity(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player && event.getEntity() instanceof LivingEntity) {
             KitPlayer kitPlayer = playerSupplier.getKitPlayer((Player) event.getDamager());
             for (AbstractKit kit : kitPlayer.getKits()) {

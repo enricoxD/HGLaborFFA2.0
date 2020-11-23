@@ -5,8 +5,8 @@ import de.hglabor.plugins.kitapi.util.Localization;
 
 import java.util.Locale;
 
-public class Config {
-    private Config() {
+public class ConfigFFA {
+    private ConfigFFA() {
     }
 
     public static void load() {
