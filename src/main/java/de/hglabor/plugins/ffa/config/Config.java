@@ -5,13 +5,14 @@ import de.hglabor.plugins.kitapi.util.Localization;
 
 import java.util.Locale;
 
-public class ConfigFFA {
-    private ConfigFFA() {
+public class Config {
+    private Config() {
     }
 
     public static void load() {
         Main.getPlugin().getConfig().addDefault("ffa.size", 100);
         Main.getPlugin().getConfig().addDefault("ffa.duration", 1800);
+        Main.getPlugin().getConfig().addDefault("border.skyborder.damage", 5);
         Main.getPlugin().getConfig().options().copyDefaults(true);
         Main.getPlugin().saveConfig();
     }

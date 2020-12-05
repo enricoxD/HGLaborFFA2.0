@@ -1,5 +1,6 @@
 package de.hglabor.plugins.ffa.util;
 
+import de.hglabor.plugins.ffa.Main;
 import de.hglabor.plugins.kitapi.config.KitApiConfig;
 import de.hglabor.plugins.kitapi.util.Localization;
 import org.bukkit.Bukkit;
@@ -25,7 +26,6 @@ public final class ScoreboardFactory {
         }
         Player player = scoreboardPlayer.getPlayer();
         player.setScoreboard(scoreboardPlayer.getScoreboard());
-        System.out.println("Bekommt scoreboard lol");
     }
 
     private static void setBasicScoreboardLayout(ScoreboardPlayer scoreboardPlayer) {
@@ -33,7 +33,7 @@ public final class ScoreboardFactory {
         int lowestPosition = 7;
         int highestPosition = lowestPosition + kitAmount;
         addEntry(scoreboardPlayer, "reset", Localization.getMessage("scoreboard.mapReset", scoreboardPlayer.getLocale()), "", highestPosition + 3);
-        //TODO  addEntry(scoreboardPlayer, "resetValue", TimeConverter.toShortTimeString(Main.getPhase().getTimer()), "", highestPosition + 2);
+        addEntry(scoreboardPlayer, "resetValue", TimeConverter.stringify(Main.getFFARunnable().getTimer()), "", highestPosition + 2);
         addEntry(scoreboardPlayer, String.valueOf(highestPosition + 1), "", "", highestPosition + 1);
         if (kitAmount == 1) {
             addEntry(scoreboardPlayer, "kitValue" + 1, "Kit: None", "", highestPosition);
@@ -50,13 +50,11 @@ public final class ScoreboardFactory {
     }
 
     public static void addEntry(ScoreboardPlayer scoreboardPlayer, String name, String prefix, String suffix, int score) {
-        if (scoreboardPlayer.getScoreboard().getTeam(name) != null) {
-            Team team = scoreboardPlayer.getScoreboard().registerNewTeam(name);
-            team.addEntry(ChatColor.values()[score] + "" + ChatColor.WHITE);
-            team.setPrefix(prefix);
-            team.setSuffix(suffix);
-            scoreboardPlayer.getObjective().getScore(ChatColor.values()[score] + "" + ChatColor.WHITE).setScore(score);
-        }
+        Team team = scoreboardPlayer.getScoreboard().registerNewTeam(name);
+        team.addEntry(ChatColor.values()[score] + "" + ChatColor.WHITE);
+        team.setPrefix(prefix);
+        team.setSuffix(suffix);
+        scoreboardPlayer.getObjective().getScore(ChatColor.values()[score] + "" + ChatColor.WHITE).setScore(score);
     }
 
     public static void updateEntry(ScoreboardPlayer scoreboardPlayer, String name, String prefix, String suffix) {

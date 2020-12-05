@@ -227,5 +227,9 @@ public class Feast implements Listener {
             feast.feastBossBar.addPlayer(player);
         }
     }
+
+    public void removeBossBars() {
+        feastBossBar.removeAll();
+    }
 }
 

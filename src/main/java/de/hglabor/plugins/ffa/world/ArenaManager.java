@@ -11,13 +11,14 @@ import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import de.hglabor.plugins.ffa.Main;
+import de.hglabor.plugins.ffa.config.Config;
 import de.hglabor.plugins.ffa.gamemechanics.Feast;
+import de.hglabor.plugins.ffa.gamemechanics.SkyBorder;
 import de.hglabor.plugins.ffa.kit.KitSelectorFFA;
 import de.hglabor.plugins.ffa.player.FFAPlayer;
 import de.hglabor.plugins.ffa.player.PlayerList;
 import de.hglabor.plugins.ffa.util.HideUtils;
 import de.hglabor.plugins.kitapi.kit.AbstractKit;
-import de.hglabor.plugins.kitapi.kit.KitSelector;
 import de.hglabor.plugins.kitapi.util.ItemBuilder;
 import de.hglabor.plugins.kitapi.util.WorldEditUtils;
 import org.bukkit.*;
@@ -39,11 +40,14 @@ public class ArenaManager {
     private final int size;
     private final File schematic;
     private final Location center;
+    private final SkyBorder skyBorder;
     private Feast feast;
 
     public ArenaManager(World world, int mapSize) {
         this.world = world;
         this.size = mapSize;
+        this.skyBorder = new SkyBorder(Config.getInteger("border.skyborder.damage"));
+        this.skyBorder.runTaskTimer(Main.getPlugin(), 0, 20);
         this.center = new Location(world, 0, 0, 0);
         this.schematic = new File(Main.getPlugin().getDataFolder().getAbsolutePath() + "/arena.schem");
         this.feast = new Feast(world, randomSpawn(50), 20, 300, Material.GRASS_BLOCK);

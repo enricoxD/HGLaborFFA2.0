@@ -1,5 +1,6 @@
 package de.hglabor.plugins.ffa.util;
 
+import de.hglabor.plugins.ffa.Main;
 import de.hglabor.plugins.ffa.player.FFAPlayer;
 import de.hglabor.plugins.ffa.player.PlayerList;
 import de.hglabor.plugins.kitapi.config.KitApiConfig;
@@ -15,8 +16,8 @@ public final class ScoreboardManager extends BukkitRunnable {
     public void run() {
         for (FFAPlayer ffaPlayer : PlayerList.getInstance().getPlayers()) {
             ScoreboardFactory.updateEntry(ffaPlayer, "playersValue", SPACE() + Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers(), "");
-            //TODO:  ScoreboardFactory.updateEntry(ffaPlayer, "resetValue", SPACE() + TimeConverter.toShortTimeString(Main.getPhase().getTimer()), "");
             ScoreboardFactory.updateEntry(ffaPlayer, "killsValue", ChatColor.AQUA + "" + ChatColor.BOLD + "Kills: " + ChatColor.RESET + ffaPlayer.getKills(), "");
+            ScoreboardFactory.updateEntry(ffaPlayer, "resetValue", TimeConverter.stringify(Main.getFFARunnable().getTimer()), "");
 
             AbstractKit copycat = KitManager.getInstance().byName("copycat");
             boolean kitDisabled = ffaPlayer.areKitsDisabled();
@@ -31,7 +32,7 @@ public final class ScoreboardManager extends BukkitRunnable {
                                 (kitDisabled ? ChatColor.STRIKETHROUGH : ChatColor.RESET) + kit.getName() +
                                 "(" + (copiedKit != null ? ((Kit) ffaPlayer.getKitAttribute(copycat)).getName() : "None") + ")", ""); */
                     } else {
-                     //TODO:   ScoreboardFactory.updateEntry(ffaPlayer, "kitValue" + index, ChatColor.BLUE + "" + ChatColor.BOLD + "Kit" + (KitApiConfig.getInstance().getInteger("kit.amount") == 1 ? "" : index) + ": " + ChatColor.RESET + (kitDisabled ? ChatColor.STRIKETHROUGH : ChatColor.RESET) + kit.getName(), "");
+                        //TODO:   ScoreboardFactory.updateEntry(ffaPlayer, "kitValue" + index, ChatColor.BLUE + "" + ChatColor.BOLD + "Kit" + (KitApiConfig.getInstance().getInteger("kit.amount") == 1 ? "" : index) + ": " + ChatColor.RESET + (kitDisabled ? ChatColor.STRIKETHROUGH : ChatColor.RESET) + kit.getName(), "");
                     }
                     index++;
                 }

@@ -34,5 +34,9 @@ public class FFARunnable extends BukkitRunnable {
             arenaManager.reloadMap();
         }
     }
+
+    public int getTimer() {
+        return timer;
+    }
 }
 

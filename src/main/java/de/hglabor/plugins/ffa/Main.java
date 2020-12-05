@@ -1,7 +1,7 @@
 package de.hglabor.plugins.ffa;
 
-import de.hglabor.plugins.ffa.config.ConfigFFA;
-import de.hglabor.plugins.ffa.gamemechanics.Feast;
+import de.hglabor.plugins.ffa.config.Config;
+import de.hglabor.plugins.ffa.gamemechanics.*;
 import de.hglabor.plugins.ffa.kit.KitAbilityListener;
 import de.hglabor.plugins.ffa.kit.KitItemListener;
 import de.hglabor.plugins.ffa.kit.KitSelectorFFA;
@@ -24,6 +24,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Main extends JavaPlugin {
     private static Main plugin;
     private static ArenaManager arenaManager;
+    private static FFARunnable ffaRunnable;
+
+    public static FFARunnable getFFARunnable() {
+        return ffaRunnable;
+    }
 
     public static ArenaManager getArenaManager() {
         return arenaManager;
@@ -38,10 +43,10 @@ public final class Main extends JavaPlugin {
         plugin = this;
         KitApiConfig.getInstance().register(Main.getPlugin().getDataFolder());
         KitManager.getInstance().register();
-        ConfigFFA.load();
+        Config.load();
         World world = Bukkit.getWorld("world");
-        arenaManager = new ArenaManager(world, ConfigFFA.getInteger("ffa.size"));
-        FFARunnable ffaRunnable = new FFARunnable(world, ConfigFFA.getInteger("ffa.duration"));
+        arenaManager = new ArenaManager(world, Config.getInteger("ffa.size"));
+        ffaRunnable = new FFARunnable(world, Config.getInteger("ffa.duration"));
         ffaRunnable.runTaskTimer(this, 0, 20);
         ScoreboardManager scoreboardManager = new ScoreboardManager();
         scoreboardManager.runTaskTimer(this, 0, 20);
@@ -67,6 +72,12 @@ public final class Main extends JavaPlugin {
         pluginManager.registerEvents(new FFAJoinListener(), this);
         pluginManager.registerEvents(new FFAQuitListener(), this);
         pluginManager.registerEvents(new FFADeathListener(), this);
+        //mechanics
+        pluginManager.registerEvents(new SoupHealing(), this);
+        pluginManager.registerEvents(new Tracker(), this);
+        pluginManager.registerEvents(new DamageNerf(), this);
+        pluginManager.registerEvents(new DurabilityFix(), this);
         pluginManager.registerEvents(new Feast(), this);
+        pluginManager.registerEvents(new RemoveHitCooldown(), this);
     }
 }
