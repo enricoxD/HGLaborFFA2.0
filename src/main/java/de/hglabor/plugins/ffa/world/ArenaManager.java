@@ -11,7 +11,7 @@ import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import de.hglabor.plugins.ffa.Main;
-import de.hglabor.plugins.ffa.config.Config;
+import de.hglabor.plugins.ffa.config.FFAConfig;
 import de.hglabor.plugins.ffa.gamemechanics.Feast;
 import de.hglabor.plugins.ffa.gamemechanics.SkyBorder;
 import de.hglabor.plugins.ffa.kit.KitSelectorFFA;
@@ -46,7 +46,7 @@ public class ArenaManager {
     public ArenaManager(World world, int mapSize) {
         this.world = world;
         this.size = mapSize;
-        this.skyBorder = new SkyBorder(Config.getInteger("border.skyborder.damage"));
+        this.skyBorder = new SkyBorder(FFAConfig.getInteger("border.skyborder.damage"));
         this.skyBorder.runTaskTimer(Main.getPlugin(), 0, 20);
         this.center = new Location(world, 0, 0, 0);
         this.schematic = new File(Main.getPlugin().getDataFolder().getAbsolutePath() + "/arena.schem");

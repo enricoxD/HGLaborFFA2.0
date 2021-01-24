@@ -55,7 +55,7 @@ public class KitSelectorFFA extends KitSelector implements Listener {
             if (lastPage(inventoryTitle, clickedItem, player)) {
                 return;
             }
-            ItemStack kitSelector = getKitSelector(player);
+            ItemStack kitSelector = getKitSelectorInHand(player);
             AbstractKit kit = KitManager.getInstance().byItem(clickedItem);
             if (kitSelector != null && isKitSelectorItem(kitSelector)) {
                 int index = Integer.parseInt(kitSelector.getItemMeta().getDisplayName().substring(kitSelector.getItemMeta().getDisplayName().length() - 1)) - 1;
@@ -71,7 +71,7 @@ public class KitSelectorFFA extends KitSelector implements Listener {
         }
     }
 
-    private ItemStack getKitSelector(Player player) {
+    private ItemStack getKitSelectorInHand(Player player) {
         for (ItemStack kitSelectorItem : kitSelectorItems) {
             if (kitSelectorItem.isSimilar(player.getInventory().getItemInMainHand())) {
                 return player.getInventory().getItemInMainHand();

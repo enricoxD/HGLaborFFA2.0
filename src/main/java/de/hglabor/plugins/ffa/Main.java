@@ -2,10 +2,11 @@ package de.hglabor.plugins.ffa;
 
 import de.hglabor.plugins.ffa.commands.ReloadMapCommand;
 import de.hglabor.plugins.ffa.commands.SuicideCommand;
-import de.hglabor.plugins.ffa.config.Config;
+import de.hglabor.plugins.ffa.config.FFAConfig;
 import de.hglabor.plugins.ffa.gamemechanics.*;
 import de.hglabor.plugins.ffa.kit.KitAbilityListener;
 import de.hglabor.plugins.ffa.kit.KitItemListener;
+import de.hglabor.plugins.ffa.kit.KitItemSupplierImpl;
 import de.hglabor.plugins.ffa.kit.KitSelectorFFA;
 import de.hglabor.plugins.ffa.listener.FFADeathListener;
 import de.hglabor.plugins.ffa.listener.FFAJoinListener;
@@ -16,6 +17,7 @@ import de.hglabor.plugins.ffa.util.ScoreboardFactory;
 import de.hglabor.plugins.ffa.util.ScoreboardManager;
 import de.hglabor.plugins.ffa.world.ArenaManager;
 import de.hglabor.plugins.ffa.world.ArenaSettings;
+import de.hglabor.plugins.kitapi.config.KitApiConfig;
 import de.hglabor.plugins.kitapi.kit.KitManager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -43,12 +45,12 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
-        de.hglabor.plugins.kitapi.config.Config.getInstance().register(Main.getPlugin().getDataFolder());
-        KitManager.getInstance().register(PlayerList.getInstance());
-        Config.load();
+        KitApiConfig.getInstance().register(Main.getPlugin().getDataFolder());
+        KitManager.getInstance().register(PlayerList.getInstance(), KitItemSupplierImpl.INSTANCE);
+        FFAConfig.load();
         World world = Bukkit.getWorld("world");
-        arenaManager = new ArenaManager(world, Config.getInteger("ffa.size"));
-        ffaRunnable = new FFARunnable(world, Config.getInteger("ffa.duration"));
+        arenaManager = new ArenaManager(world, FFAConfig.getInteger("ffa.size"));
+        ffaRunnable = new FFARunnable(world, FFAConfig.getInteger("ffa.duration"));
         ffaRunnable.runTaskTimer(this, 0, 20);
         ScoreboardManager scoreboardManager = new ScoreboardManager();
         scoreboardManager.runTaskTimer(this, 0, 20);
