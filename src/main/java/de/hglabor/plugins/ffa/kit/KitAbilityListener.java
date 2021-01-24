@@ -4,6 +4,7 @@ import de.hglabor.plugins.ffa.player.PlayerList;
 import de.hglabor.plugins.kitapi.kit.AbstractKit;
 import de.hglabor.plugins.kitapi.kit.events.KitEventHandler;
 import de.hglabor.plugins.kitapi.player.KitPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,6 +13,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 public class KitAbilityListener extends KitEventHandler implements Listener {
@@ -24,6 +26,14 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
         if (event.getDamager() instanceof Player && event.getEntity() instanceof LivingEntity) {
             KitPlayer kitPlayer = playerSupplier.getKitPlayer((Player) event.getDamager());
             useKit(kitPlayer, kit -> kit.onPlayerAttacksLivingEntity(event, kitPlayer, (LivingEntity) event.getEntity()));
+        }
+    }
+
+    @EventHandler
+    public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
+        if (event.getEntity() instanceof Player) {
+            KitPlayer kitPlayer = playerSupplier.getKitPlayer((Player) event.getEntity());
+            useKit(kitPlayer, kit -> kit.onEntityDamageByEntityEvent(event));
         }
     }
 
@@ -41,6 +51,14 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
             KitPlayer kitPlayer = playerSupplier.getKitPlayer(event.getPlayer());
             useKitItem(kitPlayer, kit -> kit.onPlayerRightClickPlayerWithKitItem(event));
         }
+    }
+
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent event) {
+        KitPlayer kitPlayer = playerSupplier.getKitPlayer(event.getPlayer());
+        useKit(kitPlayer, kit -> {
+            kit.onPlayerMove(event);
+        });
     }
 
     @EventHandler
