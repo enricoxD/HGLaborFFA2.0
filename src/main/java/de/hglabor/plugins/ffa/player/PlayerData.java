@@ -71,7 +71,7 @@ public class PlayerData extends FFAPlayer {
 
     @Override
     public boolean isValid() {
-        return false;
+        return isInArena();
     }
 
     @Override

@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
@@ -31,6 +32,14 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
         if (event.isSneaking()) {
             KitPlayer kitPlayer = playerSupplier.getKitPlayer(event.getPlayer());
             useKit(kitPlayer, kit -> kit.onNinjaSneak(event));
+        }
+    }
+
+    @EventHandler
+    public void onPlayerRightClickPlayerWithKitItem(PlayerInteractAtEntityEvent event) {
+        if (event.getRightClicked() instanceof Player) {
+            KitPlayer kitPlayer = playerSupplier.getKitPlayer(event.getPlayer());
+            useKitItem(kitPlayer, kit -> kit.onPlayerRightClickPlayerWithKitItem(event));
         }
     }
 

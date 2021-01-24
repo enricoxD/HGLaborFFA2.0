@@ -18,10 +18,12 @@ import de.hglabor.plugins.ffa.util.ScoreboardManager;
 import de.hglabor.plugins.ffa.world.ArenaManager;
 import de.hglabor.plugins.ffa.world.ArenaSettings;
 import de.hglabor.plugins.kitapi.config.KitApiConfig;
+import de.hglabor.plugins.kitapi.kit.AbstractKit;
 import de.hglabor.plugins.kitapi.kit.KitManager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -46,7 +48,7 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         KitApiConfig.getInstance().register(Main.getPlugin().getDataFolder());
-        KitManager.getInstance().register(PlayerList.getInstance(), KitItemSupplierImpl.INSTANCE);
+        KitManager.getInstance().register(PlayerList.getInstance(), KitItemSupplierImpl.INSTANCE, this);
         FFAConfig.load();
         World world = Bukkit.getWorld("world");
         arenaManager = new ArenaManager(world, FFAConfig.getInteger("ffa.size"));
@@ -72,6 +74,11 @@ public final class Main extends JavaPlugin {
     private void registerListeners() {
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(KitSelectorFFA.getInstance(), this);
+        for (AbstractKit enabledKit : KitManager.getInstance().getEnabledKits()) {
+            if (enabledKit instanceof Listener) {
+                pluginManager.registerEvents((Listener) enabledKit, this);
+            }
+        }
         pluginManager.registerEvents(new ArenaSettings(), this);
         pluginManager.registerEvents(new KitAbilityListener(), this);
         pluginManager.registerEvents(new KitItemListener(), this);
@@ -88,7 +95,7 @@ public final class Main extends JavaPlugin {
         pluginManager.registerEvents(new LastHitDetection(), this);
     }
 
-    private void registerCommands(){
+    private void registerCommands() {
         this.getCommand("suicide").setExecutor(new SuicideCommand());
         this.getCommand("reloadmap").setExecutor(new ReloadMapCommand());
     }
