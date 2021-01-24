@@ -6,3 +6,8 @@ prefix: HGLaborFFA
 authors: [NoRisk]
 description: FFA Plugin for HGLabor
 website: HGLabor.de
+commands:
+  suicide:
+
+  reloadmap:
+

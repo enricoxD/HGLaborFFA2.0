@@ -1,5 +1,7 @@
 package de.hglabor.plugins.ffa;
 
+import de.hglabor.plugins.ffa.commands.ReloadMapCommand;
+import de.hglabor.plugins.ffa.commands.SuicideCommand;
 import de.hglabor.plugins.ffa.config.Config;
 import de.hglabor.plugins.ffa.gamemechanics.*;
 import de.hglabor.plugins.ffa.kit.KitAbilityListener;
@@ -13,7 +15,7 @@ import de.hglabor.plugins.ffa.player.PlayerList;
 import de.hglabor.plugins.ffa.util.ScoreboardFactory;
 import de.hglabor.plugins.ffa.util.ScoreboardManager;
 import de.hglabor.plugins.ffa.world.ArenaManager;
-import de.hglabor.plugins.kitapi.config.KitApiConfig;
+import de.hglabor.plugins.ffa.world.ArenaSettings;
 import de.hglabor.plugins.kitapi.kit.KitManager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -41,8 +43,8 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
-        KitApiConfig.getInstance().register(Main.getPlugin().getDataFolder());
-        KitManager.getInstance().register();
+        de.hglabor.plugins.kitapi.config.Config.getInstance().register(Main.getPlugin().getDataFolder());
+        KitManager.getInstance().register(PlayerList.getInstance());
         Config.load();
         World world = Bukkit.getWorld("world");
         arenaManager = new ArenaManager(world, Config.getInteger("ffa.size"));
@@ -52,6 +54,7 @@ public final class Main extends JavaPlugin {
         scoreboardManager.runTaskTimer(this, 0, 20);
         KitSelectorFFA.getInstance().register();
         this.registerListeners();
+        this.registerCommands();
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             FFAPlayer player = PlayerList.getInstance().getPlayer(onlinePlayer);
             PlayerList.getInstance().add(player);
@@ -67,6 +70,7 @@ public final class Main extends JavaPlugin {
     private void registerListeners() {
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(KitSelectorFFA.getInstance(), this);
+        pluginManager.registerEvents(new ArenaSettings(), this);
         pluginManager.registerEvents(new KitAbilityListener(), this);
         pluginManager.registerEvents(new KitItemListener(), this);
         pluginManager.registerEvents(new FFAJoinListener(), this);
@@ -79,5 +83,11 @@ public final class Main extends JavaPlugin {
         pluginManager.registerEvents(new DurabilityFix(), this);
         pluginManager.registerEvents(new Feast(), this);
         pluginManager.registerEvents(new RemoveHitCooldown(), this);
+        pluginManager.registerEvents(new LastHitDetection(), this);
+    }
+
+    private void registerCommands(){
+        this.getCommand("suicide").setExecutor(new SuicideCommand());
+        this.getCommand("reloadmap").setExecutor(new ReloadMapCommand());
     }
 }

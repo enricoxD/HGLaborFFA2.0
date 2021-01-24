@@ -1,7 +1,7 @@
 package de.hglabor.plugins.ffa.util;
 
 import de.hglabor.plugins.ffa.Main;
-import de.hglabor.plugins.kitapi.config.KitApiConfig;
+import de.hglabor.plugins.kitapi.config.Config;
 import de.hglabor.plugins.kitapi.util.Localization;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -29,7 +29,7 @@ public final class ScoreboardFactory {
     }
 
     private static void setBasicScoreboardLayout(ScoreboardPlayer scoreboardPlayer) {
-        int kitAmount = KitApiConfig.getInstance().getInteger("kit.amount");
+        int kitAmount = Config.getInstance().getInteger("kit.amount");
         int lowestPosition = 7;
         int highestPosition = lowestPosition + kitAmount;
         addEntry(scoreboardPlayer, "reset", Localization.getMessage("scoreboard.mapReset", scoreboardPlayer.getLocale()), "", highestPosition + 3);

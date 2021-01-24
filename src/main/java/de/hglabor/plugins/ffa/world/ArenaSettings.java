@@ -16,7 +16,7 @@ public class ArenaSettings implements Listener {
 
     @EventHandler
     public void cancelDamage(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Player)) {
+        if (event.getDamager() instanceof Player) {
             FFAPlayer ffaPlayer = PlayerList.getInstance().getPlayer((Player) event.getDamager());
             if (ffaPlayer.isInKitSelection()) {
                 event.setCancelled(true);
@@ -26,7 +26,7 @@ public class ArenaSettings implements Listener {
 
     @EventHandler
     public void cancelInventoryClick(InventoryClickEvent event) {
-        if (!(event.getWhoClicked() instanceof Player)) {
+        if (event.getWhoClicked() instanceof Player) {
             FFAPlayer ffaPlayer = PlayerList.getInstance().getPlayer((Player) event.getWhoClicked());
             if (ffaPlayer.isInKitSelection()) {
                 event.setCancelled(true);
@@ -36,7 +36,7 @@ public class ArenaSettings implements Listener {
 
     @EventHandler
     public void cancelDamage(EntityDamageEvent event) {
-        if (!(event.getEntity() instanceof Player)) {
+        if (event.getEntity() instanceof Player) {
             FFAPlayer ffaPlayer = PlayerList.getInstance().getPlayer((Player) event.getEntity());
             if (ffaPlayer.isInKitSelection()) {
                 event.setCancelled(true);
@@ -46,7 +46,7 @@ public class ArenaSettings implements Listener {
 
     @EventHandler
     public void cancelItemPickUp(EntityPickupItemEvent event) {
-        if (!(event.getEntity() instanceof Player)) {
+        if (event.getEntity() instanceof Player) {
             FFAPlayer ffaPlayer = PlayerList.getInstance().getPlayer((Player) event.getEntity());
             if (ffaPlayer.isInKitSelection()) {
                 event.setCancelled(true);

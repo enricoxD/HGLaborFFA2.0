@@ -124,7 +124,7 @@ public class ArenaManager {
         inventory.setItem(15, new ItemStack(Material.BROWN_MUSHROOM, 32));
         int itemCount = 0;
         for (AbstractKit kit : ffaPlayer.getKits()) {
-           /* if (!kit.isUsesOffHand()) {
+            if (!kit.isUsingOffHand()) {
                 for (ItemStack kitItem : kit.getKitItems()) {
                     itemCount++;
                     inventory.setItem(1 + itemCount, kitItem);
@@ -132,12 +132,12 @@ public class ArenaManager {
             } else {
                 player.getInventory().setItemInOffHand(kit.getMainKitItem());
             }
-            kit.enable(player);
-        } */
-
-            IntStream.range(0, 31 - itemCount).mapToObj(i -> new ItemStack(Material.MUSHROOM_STEW)).forEach(inventory::addItem);
+            kit.enable(PlayerList.getInstance().getKitPlayer(player));
         }
+
+        IntStream.range(0, 31 - itemCount).mapToObj(i -> new ItemStack(Material.MUSHROOM_STEW)).forEach(inventory::addItem);
     }
+
 
     public void reloadMap() {
         for (Entity entity : world.getNearbyEntities(new BoundingBox(size, 0, size, -size, 120, -size))) {

@@ -3,7 +3,7 @@ package de.hglabor.plugins.ffa.util;
 import de.hglabor.plugins.ffa.Main;
 import de.hglabor.plugins.ffa.player.FFAPlayer;
 import de.hglabor.plugins.ffa.player.PlayerList;
-import de.hglabor.plugins.kitapi.config.KitApiConfig;
+import de.hglabor.plugins.kitapi.config.Config;
 import de.hglabor.plugins.kitapi.kit.AbstractKit;
 import de.hglabor.plugins.kitapi.kit.KitManager;
 import org.bukkit.Bukkit;
@@ -23,7 +23,7 @@ public final class ScoreboardManager extends BukkitRunnable {
             boolean kitDisabled = ffaPlayer.areKitsDisabled();
 
             //could possibly be none -> name check
-            if (KitApiConfig.getInstance().getInteger("kit.amount") > 0) {
+            if (Config.getInstance().getInteger("kit.amount") > 0) {
                 int index = 1;
                 for (AbstractKit kit : ffaPlayer.getKits()) {
                     if (kit.equals(copycat)) {

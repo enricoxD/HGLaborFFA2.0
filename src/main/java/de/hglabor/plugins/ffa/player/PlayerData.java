@@ -1,24 +1,31 @@
 package de.hglabor.plugins.ffa.player;
 
+import de.hglabor.plugins.ffa.Main;
 import de.hglabor.plugins.kitapi.kit.AbstractKit;
+import de.hglabor.plugins.kitapi.kit.Cooldown;
 import de.hglabor.plugins.kitapi.kit.KitManager;
+import de.hglabor.plugins.kitapi.player.KitPlayer;
 import de.hglabor.plugins.kitapi.util.Localization;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 
 public class PlayerData extends FFAPlayer {
     private final List<AbstractKit> kits;
+    private final Map<AbstractKit, Object> kitAttributes;
+    private final Map<AbstractKit, Cooldown> kitCooldowns;
     private Scoreboard scoreboard;
     private Objective objective;
+    private KitPlayer lastHittedPlayer;
+    private long lastHittedPlayerTimeStamp;
 
     protected PlayerData(UUID uuid) {
         super(uuid);
+        kitAttributes = new HashMap<>();
+        kitCooldowns = new HashMap<>();
         kits = KitManager.getInstance().empty();
     }
 
@@ -43,8 +50,58 @@ public class PlayerData extends FFAPlayer {
     }
 
     @Override
-    public boolean hasKitCooldown(AbstractKit abstractKit) {
+    public boolean hasKitCooldown(AbstractKit kit) {
+        return kitCooldowns.getOrDefault(kit, new Cooldown(false)).hasCooldown();
+    }
+
+    @Override
+    public KitPlayer getLastHittedPlayer() {
+        return lastHittedPlayer;
+    }
+
+    @Override
+    public void setLastHittedPlayer(KitPlayer lastHittedPlayer) {
+        this.lastHittedPlayer = lastHittedPlayer;
+    }
+
+    @Override
+    public long getLastHitTimeStamp() {
+        return lastHittedPlayerTimeStamp;
+    }
+
+    @Override
+    public boolean isValid() {
         return false;
+    }
+
+    @Override
+    public void activateKitCooldown(AbstractKit kit, int seconds) {
+        if (!kitCooldowns.getOrDefault(kit, new Cooldown(false)).hasCooldown()) {
+            kitCooldowns.put(kit, new Cooldown(true, System.currentTimeMillis()));
+            Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> kitCooldowns.put(kit, new Cooldown(false)),// (seconds + additionalKitCooldowns.getOrDefault(kit, 0)) * 20);
+                    (seconds) * 20L);
+        }
+    }
+
+    @Override
+    public Cooldown getKitCooldown(AbstractKit abstractKit) {
+        return kitCooldowns.getOrDefault(abstractKit, new Cooldown(false));
+    }
+
+    @Override
+    public void setLastHittedTimeStamp(Long timeStamp) {
+        this.lastHittedPlayerTimeStamp = timeStamp;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T getKitAttribute(AbstractKit abstractKit) {
+        return (T) kitAttributes.getOrDefault(abstractKit, null);
+    }
+
+    @Override
+    public <T> void putKitAttribute(AbstractKit abstractKit, T t) {
+        kitAttributes.put(abstractKit, t);
     }
 
     @Override

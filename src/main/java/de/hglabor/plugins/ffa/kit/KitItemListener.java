@@ -1,7 +1,7 @@
 package de.hglabor.plugins.ffa.kit;
 
 import de.hglabor.plugins.ffa.player.PlayerList;
-import de.hglabor.plugins.kitapi.kit.KitItemHandler;
+import de.hglabor.plugins.kitapi.kit.events.KitItemHandler;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;

@@ -6,9 +6,8 @@ import de.hglabor.plugins.ffa.player.FFAPlayer;
 import de.hglabor.plugins.ffa.player.PlayerList;
 import de.hglabor.plugins.kitapi.kit.AbstractKit;
 import de.hglabor.plugins.kitapi.kit.KitManager;
-import de.hglabor.plugins.kitapi.kit.KitSelector;
 import de.hglabor.plugins.kitapi.kit.kits.NoneKit;
-import org.bukkit.Bukkit;
+import de.hglabor.plugins.kitapi.kit.selector.KitSelector;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -57,7 +56,6 @@ public class KitSelectorFFA extends KitSelector implements Listener {
                 return;
             }
             ItemStack kitSelector = getKitSelector(player);
-            Bukkit.broadcastMessage(kitSelector.toString());
             AbstractKit kit = KitManager.getInstance().byItem(clickedItem);
             if (kitSelector != null && isKitSelectorItem(kitSelector)) {
                 int index = Integer.parseInt(kitSelector.getItemMeta().getDisplayName().substring(kitSelector.getItemMeta().getDisplayName().length() - 1)) - 1;
