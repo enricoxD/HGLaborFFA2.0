@@ -70,6 +70,15 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
         }
     }
 
+    @Override
+    public void onPlayerKillsLivingEntity(EntityDeathEvent event) {
+        Player killer = event.getEntity().getKiller();
+        if (killer != null) {
+            KitPlayer kitPlayer = playerSupplier.getKitPlayer(killer);
+            useKitItem(kitPlayer, kit -> kit.onPlayerKillsLivingEntity(event));
+        }
+    }
+
     @EventHandler
     public void onEntityResurrect(EntityResurrectEvent event) {
         if(event.getEntity() instanceof Player) {
