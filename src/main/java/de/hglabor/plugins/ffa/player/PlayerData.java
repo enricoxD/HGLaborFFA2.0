@@ -91,7 +91,7 @@ public class PlayerData extends FFAPlayer {
 
     @Override
     public void activateKitCooldown(AbstractKit kit, int seconds) {
-        if (!kitCooldowns.getOrDefault(kit, new Cooldown(false)).hasCooldown()) {
+        if (hasKit(kit) && !kitCooldowns.getOrDefault(kit, new Cooldown(false)).hasCooldown()) {
             kitCooldowns.put(kit, new Cooldown(true, System.currentTimeMillis()));
             Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> kitCooldowns.put(kit, new Cooldown(false)),// (seconds + additionalKitCooldowns.getOrDefault(kit, 0)) * 20);
                     (seconds) * 20L);
