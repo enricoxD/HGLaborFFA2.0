@@ -12,6 +12,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
@@ -80,6 +81,19 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
         }
     }
 
+    @EventHandler
+    public void onBlockBreakWithKitItem(BlockBreakEvent event) {
+        KitPlayer kitPlayer = playerSupplier.getKitPlayer(event.getPlayer());
+        useKitItem(event, kitPlayer, kit -> kit.onBlockBreakWithKitItem(event));
+    }
+
+    @EventHandler
+    public void onProjectileLaunch(ProjectileLaunchEvent event) {
+        if (event.getEntity().getShooter() instanceof Player) {
+            KitPlayer kitPlayer = playerSupplier.getKitPlayer((Player) event.getEntity().getShooter());
+            useKit(event, kitPlayer, kit -> kit.onProjectileLaunch(event));
+        }
+    }
 
     @EventHandler
     public void onPlayerKillsPlayer(PlayerDeathEvent event) {
