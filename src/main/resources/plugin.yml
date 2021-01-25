@@ -4,7 +4,8 @@ main: de.hglabor.plugins.ffa.Main
 api-version: 1.16
 prefix: HGLaborFFA
 authors: [ NoRisk ]
-depend: [ FastAsyncWorldEdit,HGLaborRankSystem ]
+depend: [ "FastAsyncWorldEdit" ]
+softdepend: [ "HGLaborRankSystem" ]
 description: FFA Plugin for HGLabor
 website: HGLabor.de
 commands:

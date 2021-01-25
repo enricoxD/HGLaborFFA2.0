@@ -69,7 +69,7 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
         }
     }
 
-    @Override
+    @EventHandler
     public void onPlayerKillsLivingEntity(EntityDeathEvent event) {
         Player killer = event.getEntity().getKiller();
         if (killer != null) {
