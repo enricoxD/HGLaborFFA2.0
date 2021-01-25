@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityResurrectEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -33,7 +34,7 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player) {
             KitPlayer kitPlayer = playerSupplier.getKitPlayer((Player) event.getEntity());
-            useKit(kitPlayer, kit -> kit.onEntityDamageByEntityEvent(event));
+            useKit(kitPlayer, kit -> kit.onAreaEffectCloudDamage(event));
         }
     }
 
@@ -56,9 +57,15 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         KitPlayer kitPlayer = playerSupplier.getKitPlayer(event.getPlayer());
-        useKit(kitPlayer, kit -> {
-            kit.onPlayerMove(event);
-        });
+        useKit(kitPlayer, kit -> kit.onPlayerMove(event));
+    }
+
+    @EventHandler
+    public void onEntityResurrect(EntityResurrectEvent event) {
+        if(event.getEntity() instanceof Player) {
+            KitPlayer kitPlayer = playerSupplier.getKitPlayer((Player) event.getEntity());
+            useKit(kitPlayer, kit -> kit.onEntityResurrect(event));
+        }
     }
 
     @EventHandler
