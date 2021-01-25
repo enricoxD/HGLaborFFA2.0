@@ -4,14 +4,17 @@ import de.hglabor.plugins.ffa.player.PlayerList;
 import de.hglabor.plugins.kitapi.kit.AbstractKit;
 import de.hglabor.plugins.kitapi.kit.events.KitEventHandler;
 import de.hglabor.plugins.kitapi.player.KitPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityResurrectEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 public class KitAbilityListener extends KitEventHandler implements Listener {
@@ -27,6 +30,7 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
         }
     }
 
+
     @EventHandler
     public void onNinjaSneak(PlayerToggleSneakEvent event) {
         if (event.isSneaking()) {
@@ -40,6 +44,14 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
         if (event.getRightClicked() instanceof Player) {
             KitPlayer kitPlayer = playerSupplier.getKitPlayer(event.getPlayer());
             useKitItem(kitPlayer, kit -> kit.onPlayerRightClickPlayerWithKitItem(event));
+        }
+    }
+
+    @EventHandler
+    public void onEntityResurrect(EntityResurrectEvent event) {
+        if(event.getEntity() instanceof Player) {
+            KitPlayer kitPlayer = playerSupplier.getKitPlayer((Player) event.getEntity());
+            useKit(kitPlayer, kit -> kit.onEntityResurrect(event));
         }
     }
 
