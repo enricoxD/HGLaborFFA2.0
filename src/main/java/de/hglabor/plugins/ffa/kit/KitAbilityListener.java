@@ -55,12 +55,6 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
     }
 
     @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
-        KitPlayer kitPlayer = playerSupplier.getKitPlayer(event.getPlayer());
-        useKit(kitPlayer, kit -> kit.onPlayerMove(event));
-    }
-
-    @EventHandler
     public void onEntityResurrect(EntityResurrectEvent event) {
         if(event.getEntity() instanceof Player) {
             KitPlayer kitPlayer = playerSupplier.getKitPlayer((Player) event.getEntity());
