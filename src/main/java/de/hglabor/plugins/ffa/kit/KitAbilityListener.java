@@ -30,13 +30,6 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
         }
     }
 
-    @EventHandler
-    public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
-        if (event.getEntity() instanceof Player) {
-            KitPlayer kitPlayer = playerSupplier.getKitPlayer((Player) event.getEntity());
-            useKit(kitPlayer, kit -> kit.onAreaEffectCloudDamage(event));
-        }
-    }
 
     @EventHandler
     public void onNinjaSneak(PlayerToggleSneakEvent event) {
