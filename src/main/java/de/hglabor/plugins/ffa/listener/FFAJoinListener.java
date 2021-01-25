@@ -1,6 +1,7 @@
 package de.hglabor.plugins.ffa.listener;
 
 import com.google.common.collect.ImmutableMap;
+import de.hglabor.Localization.Localization;
 import de.hglabor.plugins.ffa.Main;
 import de.hglabor.plugins.ffa.player.FFAPlayer;
 import de.hglabor.plugins.ffa.player.PlayerList;
@@ -21,7 +22,10 @@ public class FFAJoinListener implements Listener {
         FFAPlayer ffaPlayer = PlayerList.getInstance().getPlayer(player);
         PlayerList.getInstance().add(ffaPlayer);
         Utils.broadcastMessage("hglabor.ffa.joinMessage", ImmutableMap.of("playerName", player.getName()));
-        player.sendTitle("FFA Warp", "choose a kit", 20, 20, 20);
+        player.sendTitle(
+                Localization.INSTANCE.getMessage("hglabor.ffa.joinTitle", Utils.getPlayerLocale(player)),
+                Localization.INSTANCE.getMessage("hglabor.ffa.lowerJoinTitle", Utils.getPlayerLocale(player)),
+                20, 20, 20);
         ScoreboardFactory.create(ffaPlayer);
         Main.getArenaManager().prepareKitSelection(player);
     }
