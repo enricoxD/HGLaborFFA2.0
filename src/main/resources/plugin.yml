@@ -3,8 +3,8 @@ version: ${project.version}
 main: de.hglabor.plugins.ffa.Main
 api-version: 1.16
 prefix: HGLaborFFA
-authors: [NoRisk]
-depend: [FastAsyncWorldEdit]
+authors: [ NoRisk ]
+depend: [ FastAsyncWorldEdit,HGLaborRankSystem ]
 description: FFA Plugin for HGLabor
 website: HGLabor.de
 commands:
