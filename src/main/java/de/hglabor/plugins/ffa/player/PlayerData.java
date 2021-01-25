@@ -4,6 +4,7 @@ import de.hglabor.plugins.ffa.Main;
 import de.hglabor.plugins.kitapi.kit.AbstractKit;
 import de.hglabor.plugins.kitapi.kit.KitManager;
 import de.hglabor.plugins.kitapi.kit.config.Cooldown;
+import de.hglabor.plugins.kitapi.kit.kits.CopyCatKit;
 import de.hglabor.plugins.kitapi.player.KitPlayer;
 import de.hglabor.plugins.kitapi.util.Utils;
 import org.bukkit.Bukkit;
@@ -32,12 +33,20 @@ public class PlayerData extends FFAPlayer {
 
     @Override
     public List<AbstractKit> getKits() {
-        return kits;
+        AbstractKit copyCatKit = this.getKitAttribute(CopyCatKit.INSTANCE);
+        if (copyCatKit != null) {
+            List<AbstractKit> kitList = new ArrayList<>(this.kits);
+            kitList.add(copyCatKit);
+            return kitList;
+        } else {
+            return this.kits;
+        }
     }
 
     @Override
-    public boolean hasKit(AbstractKit abstractKit) {
-        return kits.contains(abstractKit);
+    public boolean hasKit(AbstractKit kit) {
+        AbstractKit copyCatKit = this.getKitAttribute(CopyCatKit.INSTANCE);
+        return copyCatKit != null && copyCatKit.equals(kit) || this.kits.contains(kit);
     }
 
     @Override
