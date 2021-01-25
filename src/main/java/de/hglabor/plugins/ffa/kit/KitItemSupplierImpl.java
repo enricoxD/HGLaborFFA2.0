@@ -19,6 +19,11 @@ public class KitItemSupplierImpl implements KitItemSupplier {
     }
 
     @Override
+    public void giveKitItems(KitPlayer kitPlayer, AbstractKit abstractKit, List<ItemStack> list) {
+
+    }
+
+    @Override
     public void giveItems(KitPlayer kitPlayer, List<ItemStack> list) {
 
     }

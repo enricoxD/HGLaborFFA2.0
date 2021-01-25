@@ -60,6 +60,7 @@ public class ArenaManager {
         this.world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
         this.world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
         this.world.setGameRule(GameRule.DO_TRADER_SPAWNING, false);
+        this.world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
         this.copyMap();
     }
 

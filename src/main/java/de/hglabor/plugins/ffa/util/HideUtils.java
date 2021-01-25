@@ -1,9 +1,11 @@
 package de.hglabor.plugins.ffa.util;
 
+import de.hglabor.Localization.Localization;
 import de.hglabor.plugins.ffa.Main;
 import de.hglabor.plugins.ffa.player.FFAPlayer;
 import de.hglabor.plugins.ffa.player.PlayerList;
-import de.hglabor.plugins.kitapi.util.Localization;
+import de.hglabor.plugins.kitapi.kit.KitManager;
+import de.hglabor.plugins.kitapi.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -20,8 +22,8 @@ public final class HideUtils implements Listener {
     private final Map<Locale, BossBar> bossBars = new HashMap<>();
 
     private HideUtils() {
-        for (Locale supportedLanguage : Localization.getSupportedLanguages()) {
-            bossBars.put(supportedLanguage, Bukkit.createBossBar(Localization.getMessage("bossBar.hideUtils", supportedLanguage), BarColor.RED, BarStyle.SOLID));
+        for (Locale supportedLanguage : KitManager.getInstance().getSupportedLanguages()) {
+            bossBars.put(supportedLanguage, Bukkit.createBossBar(Localization.INSTANCE.getMessage("bossBar.hideUtils", supportedLanguage), BarColor.RED, BarStyle.SOLID));
         }
     }
 
@@ -44,7 +46,7 @@ public final class HideUtils implements Listener {
     }
 
     public void hideToInGamePlayers(Player playerToHide) {
-        bossBars.get(Localization.getPlayerLocale(playerToHide.getUniqueId())).addPlayer(playerToHide);
+        bossBars.get(Utils.getPlayerLocale(playerToHide.getUniqueId())).addPlayer(playerToHide);
         for (FFAPlayer playerInArena : PlayerList.getInstance().getPlayersInArena()) {
             Player player = playerInArena.getPlayer();
             player.hidePlayer(Main.getPlugin(), playerToHide);
@@ -52,7 +54,7 @@ public final class HideUtils implements Listener {
     }
 
     public void makeVisibleToInGamePlayers(Player playerToShow) {
-        bossBars.get(Localization.getPlayerLocale(playerToShow.getUniqueId())).removePlayer(playerToShow);
+        bossBars.get(Utils.getPlayerLocale(playerToShow.getUniqueId())).removePlayer(playerToShow);
         for (FFAPlayer playerInArena : PlayerList.getInstance().getPlayersInArena()) {
             Player player = playerInArena.getPlayer();
             player.showPlayer(Main.getPlugin(), playerToShow);

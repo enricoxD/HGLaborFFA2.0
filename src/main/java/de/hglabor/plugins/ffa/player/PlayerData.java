@@ -5,7 +5,7 @@ import de.hglabor.plugins.kitapi.kit.AbstractKit;
 import de.hglabor.plugins.kitapi.kit.KitManager;
 import de.hglabor.plugins.kitapi.kit.config.Cooldown;
 import de.hglabor.plugins.kitapi.player.KitPlayer;
-import de.hglabor.plugins.kitapi.util.Localization;
+import de.hglabor.plugins.kitapi.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
@@ -21,6 +21,7 @@ public class PlayerData extends FFAPlayer {
     private Objective objective;
     private KitPlayer lastHittedPlayer;
     private long lastHittedPlayerTimeStamp;
+    private boolean kitsDisabled;
 
     protected PlayerData(UUID uuid) {
         super(uuid);
@@ -41,7 +42,7 @@ public class PlayerData extends FFAPlayer {
 
     @Override
     public boolean areKitsDisabled() {
-        return false;
+        return kitsDisabled;
     }
 
     @Override
@@ -72,6 +73,11 @@ public class PlayerData extends FFAPlayer {
     @Override
     public boolean isValid() {
         return isInArena();
+    }
+
+    @Override
+    public void disableKits(boolean kitsDisabled) {
+        this.kitsDisabled = kitsDisabled;
     }
 
     @Override
@@ -131,7 +137,7 @@ public class PlayerData extends FFAPlayer {
 
     @Override
     public Locale getLocale() {
-        return Localization.getPlayerLocale(uuid);
+        return Utils.getPlayerLocale(uuid);
     }
 
     @Override

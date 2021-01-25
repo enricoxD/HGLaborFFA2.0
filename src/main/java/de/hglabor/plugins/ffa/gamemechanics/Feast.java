@@ -5,10 +5,11 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.Vector2;
 import com.sk89q.worldedit.regions.CylinderRegion;
+import de.hglabor.Localization.Localization;
 import de.hglabor.plugins.ffa.Main;
 import de.hglabor.plugins.ffa.util.TimeConverter;
-import de.hglabor.plugins.kitapi.util.Localization;
 import de.hglabor.plugins.kitapi.util.RandomCollection;
+import de.hglabor.plugins.kitapi.util.Utils;
 import de.hglabor.plugins.kitapi.util.WorldEditUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -165,11 +166,11 @@ public class Feast implements Listener {
             @Override
             public void run() {
 
-                feastBossBar.setTitle(Localization.getMessage("feast.broadcastMessage", ImmutableMap.of("centerLocation", printFeastCenter(), "timeString", TimeConverter.stringify(timer)), Locale.ENGLISH));
+                feastBossBar.setTitle( Localization.INSTANCE.getMessage("feast.broadcastMessage", ImmutableMap.of("centerLocation", printFeastCenter(), "timeString", TimeConverter.stringify(timer)), Locale.ENGLISH));
                 feastBossBar.setProgress(timer / totalTime);
 
                 if (timer % 60 == 0 || timer < 10) {
-                    Localization.broadcastMessage("feast.broadcastMessage", ImmutableMap.of("centerLocation", printFeastCenter(), "timeString", TimeConverter.stringify(timer)));
+                    Utils.broadcastMessage("feast.broadcastMessage", ImmutableMap.of("centerLocation", printFeastCenter(), "timeString", TimeConverter.stringify(timer)));
                 }
 
                 timer--;

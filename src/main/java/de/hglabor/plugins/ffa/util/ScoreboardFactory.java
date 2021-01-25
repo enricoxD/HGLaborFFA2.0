@@ -1,8 +1,8 @@
 package de.hglabor.plugins.ffa.util;
 
+import de.hglabor.Localization.Localization;
 import de.hglabor.plugins.ffa.Main;
 import de.hglabor.plugins.kitapi.config.KitApiConfig;
-import de.hglabor.plugins.kitapi.util.Localization;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -32,7 +32,7 @@ public final class ScoreboardFactory {
         int kitAmount = KitApiConfig.getInstance().getInteger("kit.amount");
         int lowestPosition = 7;
         int highestPosition = lowestPosition + kitAmount;
-        addEntry(scoreboardPlayer, "reset", Localization.getMessage("scoreboard.mapReset", scoreboardPlayer.getLocale()), "", highestPosition + 3);
+        addEntry(scoreboardPlayer, "reset", Localization.INSTANCE.getMessage("scoreboard.mapReset", scoreboardPlayer.getLocale()), "", highestPosition + 3);
         addEntry(scoreboardPlayer, "resetValue", TimeConverter.stringify(Main.getFFARunnable().getTimer()), "", highestPosition + 2);
         addEntry(scoreboardPlayer, String.valueOf(highestPosition + 1), "", "", highestPosition + 1);
         if (kitAmount == 1) {
@@ -44,7 +44,7 @@ public final class ScoreboardFactory {
         }
         addEntry(scoreboardPlayer, "killsValue", "Kills: 0", "", lowestPosition);
         addEntry(scoreboardPlayer, "6", "", "", 6);
-        addEntry(scoreboardPlayer, "players", Localization.getMessage("scoreboard.players", scoreboardPlayer.getLocale()), "", 5);
+        addEntry(scoreboardPlayer, "players",  Localization.INSTANCE.getMessage("scoreboard.players", scoreboardPlayer.getLocale()), "", 5);
         addEntry(scoreboardPlayer, "playersValue", Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers(), "", 4);
         addEntry(scoreboardPlayer, "3", "", "", 3);
     }

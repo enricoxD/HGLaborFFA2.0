@@ -1,5 +1,6 @@
 package de.hglabor.plugins.ffa;
 
+import de.hglabor.Localization.Localization;
 import de.hglabor.plugins.ffa.commands.ReloadMapCommand;
 import de.hglabor.plugins.ffa.commands.SuicideCommand;
 import de.hglabor.plugins.ffa.config.FFAConfig;
@@ -27,6 +28,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.nio.file.Paths;
+
 public final class Main extends JavaPlugin {
     private static Main plugin;
     private static ArenaManager arenaManager;
@@ -47,6 +50,7 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
+        this.loadLocalizationFiles();
         KitApiConfig.getInstance().register(Main.getPlugin().getDataFolder());
         KitManager.getInstance().register(PlayerList.getInstance(), KitItemSupplierImpl.INSTANCE, this);
         FFAConfig.load();
@@ -93,6 +97,14 @@ public final class Main extends JavaPlugin {
         pluginManager.registerEvents(new Feast(), this);
         pluginManager.registerEvents(new RemoveHitCooldown(), this);
         pluginManager.registerEvents(new LastHitDetection(), this);
+    }
+
+    private void loadLocalizationFiles() {
+        try {
+            Localization.INSTANCE.loadLanguageFiles(Paths.get(Main.getPlugin().getDataFolder() + "/lang"),"§");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void registerCommands() {

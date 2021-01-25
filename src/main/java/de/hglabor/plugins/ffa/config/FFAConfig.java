@@ -1,7 +1,7 @@
 package de.hglabor.plugins.ffa.config;
 
+import de.hglabor.Localization.Localization;
 import de.hglabor.plugins.ffa.Main;
-import de.hglabor.plugins.kitapi.util.Localization;
 
 import java.util.Locale;
 
@@ -30,6 +30,6 @@ public class FFAConfig {
     }
 
     public static String getPrefix() {
-        return Localization.getMessage("hglabor.prefix", Locale.ENGLISH) + " ";
+        return  Localization.INSTANCE.getMessage("hglabor.prefix", Locale.ENGLISH) + " ";
     }
 }

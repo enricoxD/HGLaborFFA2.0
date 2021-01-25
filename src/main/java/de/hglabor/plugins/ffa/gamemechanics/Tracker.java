@@ -1,9 +1,10 @@
 package de.hglabor.plugins.ffa.gamemechanics;
 
 import com.google.common.collect.ImmutableMap;
+import de.hglabor.Localization.Localization;
 import de.hglabor.plugins.ffa.player.FFAPlayer;
 import de.hglabor.plugins.ffa.player.PlayerList;
-import de.hglabor.plugins.kitapi.util.Localization;
+import de.hglabor.plugins.kitapi.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -20,10 +21,10 @@ public class Tracker implements Listener {
         Entity target = searchForCompassTarget(player);
         if (event.getMaterial() == Material.COMPASS) {
             if (target == null) {
-                player.sendMessage(Localization.getMessage("hglabor.tracker.noTarget", player));
+                player.sendMessage(Localization.INSTANCE.getMessage("hglabor.tracker.noTarget", Utils.getPlayerLocale(player)));
             } else {
                 player.setCompassTarget(target.getLocation());
-                player.sendMessage(Localization.getMessage("hglabor.tracker.target", ImmutableMap.of("targetName", target.getName()), player));
+                player.sendMessage(Localization.INSTANCE.getMessage("hglabor.tracker.target", ImmutableMap.of("targetName", target.getName()), Utils.getPlayerLocale(player)));
             }
         }
     }
