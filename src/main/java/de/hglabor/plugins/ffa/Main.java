@@ -21,7 +21,6 @@ import de.hglabor.plugins.ffa.world.ArenaSettings;
 import de.hglabor.plugins.kitapi.config.KitApiConfig;
 import de.hglabor.plugins.kitapi.kit.AbstractKit;
 import de.hglabor.plugins.kitapi.kit.KitManager;
-import de.hglabor.plugins.kitapi.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -30,7 +29,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.Paths;
-import java.util.Locale;
 
 public final class Main extends JavaPlugin {
     private static Main plugin;

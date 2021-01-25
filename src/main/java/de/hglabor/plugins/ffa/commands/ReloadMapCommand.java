@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 
 public class ReloadMapCommand extends AbstractCommand {
     public ReloadMapCommand() {
-        super("reloadmap");
+        super("reloadmap","hglabor.ffa.reloadmap");
     }
 
     @Override

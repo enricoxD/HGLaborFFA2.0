@@ -31,7 +31,6 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
         }
     }
 
-
     @EventHandler
     public void onNinjaSneak(PlayerToggleSneakEvent event) {
         if (event.isSneaking()) {
