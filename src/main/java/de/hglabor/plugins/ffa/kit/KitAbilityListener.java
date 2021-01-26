@@ -33,10 +33,18 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
     }
 
     @EventHandler
-    public void onNinjaSneak(PlayerToggleSneakEvent event) {
+    public void onPlayerGetsAttackedByLivingEntity(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof LivingEntity && event.getEntity() instanceof Player) {
+            KitPlayer kitPlayer = playerSupplier.getKitPlayer((Player) event.getEntity());
+            useKit(event, kitPlayer, kit -> kit.onPlayerGetsAttackedByLivingEntity(event, (Player) event.getEntity(), (LivingEntity) event.getDamager()));
+        }
+    }
+
+    @EventHandler
+    public void onToggleSneakEvent(PlayerToggleSneakEvent event) {
         if (event.isSneaking()) {
             KitPlayer kitPlayer = playerSupplier.getKitPlayer(event.getPlayer());
-            useKit(event, kitPlayer, kit -> kit.onNinjaSneak(event));
+            useKit(event, kitPlayer, kit -> kit.onPlayerToggleSneakEvent(event));
         }
     }
 
@@ -67,6 +75,21 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
         if (event.getRightClicked() instanceof Player) {
             KitPlayer kitPlayer = playerSupplier.getKitPlayer(event.getPlayer());
             useKitItem(event, kitPlayer, kit -> kit.onPlayerRightClickPlayerWithKitItem(event));
+        }
+    }
+
+    @EventHandler
+    public void onHitLivingEntityWithKitItem(EntityDamageByEntityEvent event) {
+        if (event.getEntity() instanceof LivingEntity && event.getDamager() instanceof Player) {
+            KitPlayer kitPlayer = playerSupplier.getKitPlayer((Player) event.getDamager());
+            for (AbstractKit playerKit : kitPlayer.getKits()) {
+                if (playerKit.getMainKitItem() == null) {
+                    continue;
+                }
+                if (((Player) event.getDamager()).getInventory().getItemInMainHand().isSimilar(playerKit.getMainKitItem())) {
+                    useKitItem(event, kitPlayer, kit -> kit.onHitLivingEntityWithKitItem(event, kitPlayer, (LivingEntity) event.getEntity()));
+                }
+            }
         }
     }
 
