@@ -5,7 +5,6 @@ import de.hglabor.plugins.kitapi.kit.AbstractKit;
 import de.hglabor.plugins.kitapi.kit.KitManager;
 import de.hglabor.plugins.kitapi.kit.events.KitEventHandler;
 import de.hglabor.plugins.kitapi.player.KitPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -75,6 +74,9 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
         if (event.getRightClicked() instanceof Player) {
             KitPlayer kitPlayer = playerSupplier.getKitPlayer(event.getPlayer());
             useKitItem(event, kitPlayer, kit -> kit.onPlayerRightClickPlayerWithKitItem(event));
+        } else if (event.getRightClicked() instanceof LivingEntity) {
+            KitPlayer kitPlayer = playerSupplier.getKitPlayer(event.getPlayer());
+            useKitItem(event, kitPlayer, kit -> kit.onPlayerRightClickLivingEntityWithKitItem(event));
         }
     }
 
@@ -154,7 +156,7 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
     public void onPlayerLeftClickKitItem(PlayerInteractEvent event) {
         if (event.getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
             KitPlayer kitPlayer = playerSupplier.getKitPlayer(event.getPlayer());
-            useKitItem(event, kitPlayer, kit -> kit.onPlayerRightClickKitItem(event));
+            useKitItem(event, kitPlayer, kit -> kit.onPlayerLeftClickKitItem(event));
         }
     }
 
