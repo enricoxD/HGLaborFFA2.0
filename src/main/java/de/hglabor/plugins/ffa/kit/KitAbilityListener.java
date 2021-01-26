@@ -150,6 +150,14 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
         }
     }
 
+    @EventHandler
+    public void onPlayerLeftClickKitItem(PlayerInteractEvent event) {
+        if (event.getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+            KitPlayer kitPlayer = playerSupplier.getKitPlayer(event.getPlayer());
+            useKitItem(event, kitPlayer, kit -> kit.onPlayerRightClickKitItem(event));
+        }
+    }
+
     public void useKit(Event event, KitPlayer kitPlayer, KitExecutor kitExecutor) {
         kitPlayer.getKits().stream().filter(kit -> canUseKit(event, kitPlayer, kit)).forEach(kitExecutor::execute);
     }
