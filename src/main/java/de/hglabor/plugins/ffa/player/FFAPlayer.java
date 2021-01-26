@@ -48,6 +48,10 @@ public abstract class FFAPlayer implements KitPlayer, ScoreboardFactory.Scoreboa
 
     public abstract boolean isInCombat();
 
+    public void setKills(int kills) {
+        this.kills = kills;
+    }
+
     public enum Status {
         KITSELECTION,ARENA,SPECTATOR,
     }

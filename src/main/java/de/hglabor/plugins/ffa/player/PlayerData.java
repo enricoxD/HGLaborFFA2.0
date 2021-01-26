@@ -28,7 +28,7 @@ public class PlayerData extends FFAPlayer {
         super(uuid);
         kitAttributes = new HashMap<>();
         kitCooldowns = new HashMap<>();
-        kits = KitManager.getInstance().empty();
+        kits = KitManager.getInstance().emptyKitList();
     }
 
     @Override
@@ -41,6 +41,12 @@ public class PlayerData extends FFAPlayer {
         } else {
             return this.kits;
         }
+    }
+
+    @Override
+    public void setKits(List<AbstractKit> list) {
+        this.kits.clear();
+        this.kits.addAll(list);
     }
 
     @Override
@@ -152,5 +158,13 @@ public class PlayerData extends FFAPlayer {
     @Override
     public Player getPlayer() {
         return Bukkit.getPlayer(uuid);
+    }
+
+    public void resetKitAttributes() {
+        this.kitAttributes.clear();
+    }
+
+    public void resetKitCooldowns() {
+        this.kitCooldowns.clear();
     }
 }

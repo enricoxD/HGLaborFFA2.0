@@ -16,9 +16,12 @@ import de.hglabor.plugins.ffa.gamemechanics.Feast;
 import de.hglabor.plugins.ffa.gamemechanics.SkyBorder;
 import de.hglabor.plugins.ffa.kit.KitSelectorFFA;
 import de.hglabor.plugins.ffa.player.FFAPlayer;
+import de.hglabor.plugins.ffa.player.PlayerData;
 import de.hglabor.plugins.ffa.player.PlayerList;
 import de.hglabor.plugins.ffa.util.HideUtils;
 import de.hglabor.plugins.kitapi.kit.AbstractKit;
+import de.hglabor.plugins.kitapi.kit.KitManager;
+import de.hglabor.plugins.kitapi.kit.config.KitMetaData;
 import de.hglabor.plugins.kitapi.util.ItemBuilder;
 import de.hglabor.plugins.kitapi.util.WorldEditUtils;
 import org.bukkit.*;
@@ -32,6 +35,7 @@ import org.bukkit.util.BoundingBox;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.IntStream;
 
@@ -65,16 +69,15 @@ public class ArenaManager {
     }
 
     public void prepareKitSelection(Player player) {
-        FFAPlayer ffaPlayer = PlayerList.getInstance().getPlayer(player);
+        PlayerData ffaPlayer = (PlayerData) PlayerList.getInstance().getPlayer(player);
 
         ffaPlayer.setStatus(FFAPlayer.Status.KITSELECTION);
         ffaPlayer.getKits().forEach(kit -> kit.disable(ffaPlayer));
-       /* ffaPlayer.setKills(0);
-        ffaPlayer.setKits(KitManager.emptyKitList());
-        ffaPlayer.stopCombatTimer();
-        ffaPlayer.setKitCooldowns(new HashMap<>());
-        ffaPlayer.setKitCooldownStarts(new HashMap<>());
-        ffaPlayer.setKitAttributes(new HashMap<>());  */
+        ffaPlayer.setKills(0);
+        ffaPlayer.setKits(KitManager.getInstance().emptyKitList());
+        //ffaPlayer.stopCombatTimer();
+        ffaPlayer.resetKitAttributes();
+        ffaPlayer.resetKitCooldowns();
 
         HideUtils.getInstance().hideToInGamePlayers(player);
         HideUtils.getInstance().showPlayersInKitSelection(player);
@@ -90,7 +93,7 @@ public class ArenaManager {
         player.setGameMode(GameMode.ADVENTURE);
         player.setAllowFlight(true);
         player.setFlying(true);
-        //TODO Arrays.stream(MetaDatas.values()).forEach(metaData -> player.removeMetadata(metaData.getKey(), Main.getPlugin()));
+        Arrays.stream(KitMetaData.values()).forEach(metaData -> player.removeMetadata(metaData.getKey(), Main.getPlugin()));
         player.getActivePotionEffects().stream().map(PotionEffect::getType).forEach(player::removePotionEffect);
 
         player.closeInventory();
