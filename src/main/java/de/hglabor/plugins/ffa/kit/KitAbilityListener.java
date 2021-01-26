@@ -98,16 +98,21 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
         Player killer = event.getEntity().getKiller();
         if (killer != null) {
             KitPlayer kitPlayer = playerSupplier.getKitPlayer(killer);
-            if (event.getEntity() instanceof Player) {
-                useKit(event, kitPlayer, kit -> kit.onPlayerKillsLivingEntity(event));
-            }
+            useKit(event, kitPlayer, kit -> kit.onPlayerKillsLivingEntity(event));
         }
     }
 
     @EventHandler
     public void onBlockBreakWithKitItem(BlockBreakEvent event) {
         KitPlayer kitPlayer = playerSupplier.getKitPlayer(event.getPlayer());
-        useKitItem(event, kitPlayer, kit -> kit.onBlockBreakWithKitItem(event));
+        for (AbstractKit playerKit : kitPlayer.getKits()) {
+            if (playerKit.getMainKitItem() == null) {
+                continue;
+            }
+            if (event.getPlayer().getInventory().getItemInMainHand().isSimilar(playerKit.getMainKitItem())) {
+                useKitItem(event, kitPlayer, kit -> kit.onBlockBreakWithKitItem(event));
+            }
+        }
     }
 
     @EventHandler
@@ -122,7 +127,6 @@ public class KitAbilityListener extends KitEventHandler implements Listener {
     public void onPlayerKillsPlayer(PlayerDeathEvent event) {
         Player killer = event.getEntity().getKiller();
         if (killer != null) {
-            Bukkit.broadcastMessage(event.getEntity().getName());
             KitPlayer kitPlayer = playerSupplier.getKitPlayer(killer);
             useKit(event, kitPlayer, kit -> kit.onPlayerKillsPlayer(
                     KitManager.getInstance().getPlayer(killer),
