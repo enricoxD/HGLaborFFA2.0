@@ -18,7 +18,7 @@ import java.util.*;
 
 public class PlayerData extends FFAPlayer {
     private final List<AbstractKit> kits;
-    private final Map<AbstractKit, Object> kitAttributes;
+    private final Map<AbstractKit, Map<Class<?>, Object>> kitAttributes;
     private final Map<AbstractKit, Cooldown> kitCooldowns;
     private final Map<KitMetaData, KitProperties> kitProperties;
     private final LastHitInformation lastHitInformation;
@@ -116,13 +116,16 @@ public class PlayerData extends FFAPlayer {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T getKitAttribute(AbstractKit abstractKit) {
-        return (T) kitAttributes.getOrDefault(abstractKit, null);
+    public <T> T getKitAttribute(AbstractKit kit, Class<?> clazz) {
+        return (T) kitAttributes.getOrDefault(kit,new HashMap<>()).getOrDefault(clazz,null);
     }
 
     @Override
-    public <T> void putKitAttribute(AbstractKit abstractKit, T t) {
-        kitAttributes.put(abstractKit, t);
+    public <T> void putKitAttribute(AbstractKit kit, T t, Class<?> clazz) {
+        if (!kitAttributes.containsKey(kit)) {
+            kitAttributes.put(kit,new HashMap<>());
+        }
+        kitAttributes.get(kit).put(clazz,t);
     }
 
     @Override
