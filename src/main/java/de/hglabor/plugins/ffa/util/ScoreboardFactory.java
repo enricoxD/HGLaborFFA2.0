@@ -20,7 +20,9 @@ public final class ScoreboardFactory {
     public static void create(ScoreboardPlayer scoreboardPlayer) {
         if (scoreboardPlayer.getScoreboard() == null && scoreboardPlayer.getObjective() == null) {
             scoreboardPlayer.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-            scoreboardPlayer.setObjective(scoreboardPlayer.getScoreboard().registerNewObjective("score", "dummy", ChatColor.BOLD + "HGLabor"));
+            Team collision = scoreboardPlayer.getScoreboard().registerNewTeam("collision");
+            collision.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
+            scoreboardPlayer.setObjective(scoreboardPlayer.getScoreboard().registerNewObjective("ffa", "stats", ChatColor.BOLD + "HGLabor"));
             scoreboardPlayer.getObjective().setDisplaySlot(DisplaySlot.SIDEBAR);
             setBasicScoreboardLayout(scoreboardPlayer);
         }
@@ -44,7 +46,7 @@ public final class ScoreboardFactory {
         }
         addEntry(scoreboardPlayer, "killsValue", "Kills: 0", "", lowestPosition);
         addEntry(scoreboardPlayer, "6", "", "", 6);
-        addEntry(scoreboardPlayer, "players",  Localization.INSTANCE.getMessage("scoreboard.players", scoreboardPlayer.getLocale()), "", 5);
+        addEntry(scoreboardPlayer, "players", Localization.INSTANCE.getMessage("scoreboard.players", scoreboardPlayer.getLocale()), "", 5);
         addEntry(scoreboardPlayer, "playersValue", Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers(), "", 4);
         addEntry(scoreboardPlayer, "3", "", "", 3);
     }
@@ -69,6 +71,13 @@ public final class ScoreboardFactory {
         Team team = scoreboardPlayer.getScoreboard().getTeam(name);
         if (team != null) {
             team.removeEntry(ChatColor.values()[score] + "" + ChatColor.WHITE);
+        }
+    }
+
+    public static void addPlayerToNoCollision(Player playerToAdd, ScoreboardPlayer scoreboardPlayer) {
+        Team collision = scoreboardPlayer.getScoreboard().getTeam("collision");
+        if (collision != null && !collision.hasEntry(playerToAdd.getName())) {
+            collision.addEntry(playerToAdd.getName());
         }
     }
 

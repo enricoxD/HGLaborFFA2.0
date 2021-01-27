@@ -68,6 +68,9 @@ public final class Main extends JavaPlugin {
             FFAPlayer player = PlayerList.getInstance().getPlayer(onlinePlayer);
             PlayerList.getInstance().add(player);
             ScoreboardFactory.create(player);
+            Bukkit.getOnlinePlayers().forEach(newPlayer -> {
+                ScoreboardFactory.addPlayerToNoCollision(newPlayer,player);
+            });
             arenaManager.prepareKitSelection(onlinePlayer);
         }
     }
