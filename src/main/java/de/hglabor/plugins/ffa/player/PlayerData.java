@@ -4,12 +4,12 @@ import de.hglabor.plugins.ffa.Main;
 import de.hglabor.plugins.kitapi.kit.AbstractKit;
 import de.hglabor.plugins.kitapi.kit.KitManager;
 import de.hglabor.plugins.kitapi.kit.config.Cooldown;
+import de.hglabor.plugins.kitapi.kit.config.KitMetaData;
+import de.hglabor.plugins.kitapi.kit.config.KitProperties;
 import de.hglabor.plugins.kitapi.kit.config.LastHitInformation;
 import de.hglabor.plugins.kitapi.kit.kits.CopyCatKit;
-import de.hglabor.plugins.kitapi.player.KitPlayer;
 import de.hglabor.plugins.kitapi.util.Utils;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -20,16 +20,17 @@ public class PlayerData extends FFAPlayer {
     private final List<AbstractKit> kits;
     private final Map<AbstractKit, Object> kitAttributes;
     private final Map<AbstractKit, Cooldown> kitCooldowns;
+    private final Map<KitMetaData, KitProperties> kitProperties;
     private final LastHitInformation lastHitInformation;
     private Scoreboard scoreboard;
     private Objective objective;
-    private KitPlayer lastHittedPlayer;
     private boolean kitsDisabled;
 
     protected PlayerData(UUID uuid) {
         super(uuid);
         kitAttributes = new HashMap<>();
         kitCooldowns = new HashMap<>();
+        kitProperties = new HashMap<>();
         lastHitInformation = new LastHitInformation();
         kits = KitManager.getInstance().emptyKitList();
     }
@@ -76,6 +77,17 @@ public class PlayerData extends FFAPlayer {
     @Override
     public LastHitInformation getLastHitInformation() {
         return lastHitInformation;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends KitProperties> T getKitProperty(KitMetaData kitMetaData) {
+        return (T) kitProperties.getOrDefault(kitMetaData, null);
+    }
+
+    @Override
+    public <T extends KitProperties> void putKitPropety(KitMetaData kitMetaData, T t) {
+        kitProperties.put(kitMetaData, t);
     }
 
     @Override
@@ -154,5 +166,9 @@ public class PlayerData extends FFAPlayer {
 
     public void resetKitCooldowns() {
         this.kitCooldowns.clear();
+    }
+
+    public void resetKitProperties() {
+        this.kitProperties.clear();
     }
 }

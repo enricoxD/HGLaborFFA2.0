@@ -78,6 +78,7 @@ public class ArenaManager {
         //ffaPlayer.stopCombatTimer();
         ffaPlayer.resetKitAttributes();
         ffaPlayer.resetKitCooldowns();
+        ffaPlayer.resetKitProperties();
 
         HideUtils.getInstance().hideToInGamePlayers(player);
         HideUtils.getInstance().showPlayersInKitSelection(player);
