@@ -9,10 +9,7 @@ import de.hglabor.plugins.ffa.kit.KitAbilityListener;
 import de.hglabor.plugins.ffa.kit.KitItemListener;
 import de.hglabor.plugins.ffa.kit.KitItemSupplierImpl;
 import de.hglabor.plugins.ffa.kit.KitSelectorFFA;
-import de.hglabor.plugins.ffa.listener.FFAChatListener;
-import de.hglabor.plugins.ffa.listener.FFADeathListener;
-import de.hglabor.plugins.ffa.listener.FFAJoinListener;
-import de.hglabor.plugins.ffa.listener.FFAQuitListener;
+import de.hglabor.plugins.ffa.listener.*;
 import de.hglabor.plugins.ffa.player.FFAPlayer;
 import de.hglabor.plugins.ffa.player.PlayerList;
 import de.hglabor.plugins.ffa.util.ScoreboardFactory;
@@ -94,6 +91,7 @@ public final class Main extends JavaPlugin {
         pluginManager.registerEvents(new FFAQuitListener(), this);
         pluginManager.registerEvents(new FFADeathListener(), this);
         pluginManager.registerEvents(new FFAChatListener(), this);
+        pluginManager.registerEvents(new FFAEntityTargetListener(), this);
         //mechanics
         pluginManager.registerEvents(new SoupHealing(), this);
         pluginManager.registerEvents(new Tracker(), this);
