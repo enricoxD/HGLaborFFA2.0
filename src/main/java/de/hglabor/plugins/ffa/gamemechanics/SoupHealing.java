@@ -38,6 +38,7 @@ public class SoupHealing implements Listener {
                 player.getInventory().setItemInMainHand(new ItemStack(Material.BOWL));
             } else if (player.getFoodLevel() < 20) {
                 player.setFoodLevel(player.getFoodLevel() + 6);
+                player.setSaturation(player.getSaturation() + 7);
                 player.getInventory().setItemInMainHand(new ItemStack(Material.BOWL));
             }
         }
