@@ -44,7 +44,7 @@ repositories {
 
 dependencies {
     compile 'org.apache.commons:commons-lang3:3.11'
-    compile  'de.hglabor.plugins.kitapi:KitAPI:0.0.1'
+    compile  'de.hglabor.plugins.kitapi:KitAPI:0.0.2'
     compile 'de.hglabor.utils:Localization:1.0'
     compileOnly 'com.comphenix.protocol:ProtocolLib:4.6.0-SNAPSHOT'
     compileOnly 'com.destroystokyo.paper:paper-api:1.16.4-R0.1-SNAPSHOT'
