@@ -43,9 +43,9 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.apache.commons:commons-lang3:3.11'
-    implementation  'de.hglabor.plugins.kitapi:KitAPI:0.0.1'
-    implementation 'de.hglabor.utils:Localization:1.0'
+    compile 'org.apache.commons:commons-lang3:3.11'
+    compile  'de.hglabor.plugins.kitapi:KitAPI:0.0.1'
+    compile 'de.hglabor.utils:Localization:1.0'
     compileOnly 'com.comphenix.protocol:ProtocolLib:4.6.0-SNAPSHOT'
     compileOnly 'com.destroystokyo.paper:paper-api:1.16.4-R0.1-SNAPSHOT'
     compileOnly 'org.bukkit:craftbukkit:1.16.4-R0.1-SNAPSHOT'
@@ -57,7 +57,6 @@ version = '0.0.1'
 description = 'FFA Warp for HGLabor'
 
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
-
 
 publishing {
     publications {
