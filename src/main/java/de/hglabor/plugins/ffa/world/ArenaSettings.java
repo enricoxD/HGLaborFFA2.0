@@ -2,13 +2,12 @@ package de.hglabor.plugins.ffa.world;
 
 import de.hglabor.plugins.ffa.player.FFAPlayer;
 import de.hglabor.plugins.ffa.player.PlayerList;
+import de.hglabor.plugins.kitapi.kit.KitManager;
+import de.hglabor.plugins.kitapi.player.KitPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityPickupItemEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
@@ -66,6 +65,15 @@ public class ArenaSettings implements Listener {
     public void cancelFoodLoose(FoodLevelChangeEvent event) {
         FFAPlayer ffaPlayer = PlayerList.getInstance().getPlayer((Player) event.getEntity());
         if (ffaPlayer.isInKitSelection()) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void cancelEntityTargetInValidPlayer(EntityTargetLivingEntityEvent event) {
+        if (!(event.getTarget() instanceof Player)) return;
+        KitPlayer kitPlayer = KitManager.getInstance().getPlayer((Player) event.getTarget());
+        if (!kitPlayer.isValid()) {
             event.setCancelled(true);
         }
     }

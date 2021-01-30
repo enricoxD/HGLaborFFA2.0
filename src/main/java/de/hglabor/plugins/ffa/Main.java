@@ -91,7 +91,6 @@ public final class Main extends JavaPlugin {
         pluginManager.registerEvents(new FFAQuitListener(), this);
         pluginManager.registerEvents(new FFADeathListener(), this);
         pluginManager.registerEvents(new FFAChatListener(), this);
-        pluginManager.registerEvents(new FFAEntityTargetListener(), this);
         //mechanics
         pluginManager.registerEvents(new SoupHealing(), this);
         pluginManager.registerEvents(new Tracker(), this);
