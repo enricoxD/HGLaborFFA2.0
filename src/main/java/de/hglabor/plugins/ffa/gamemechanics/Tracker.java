@@ -1,7 +1,7 @@
 package de.hglabor.plugins.ffa.gamemechanics;
 
 import com.google.common.collect.ImmutableMap;
-import de.hglabor.Localization.Localization;
+import de.hglabor.utils.localization.Localization;
 import de.hglabor.plugins.ffa.player.FFAPlayer;
 import de.hglabor.plugins.ffa.player.PlayerList;
 import de.hglabor.plugins.kitapi.util.Utils;

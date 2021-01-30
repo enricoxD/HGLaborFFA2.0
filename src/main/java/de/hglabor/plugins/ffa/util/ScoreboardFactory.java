@@ -1,6 +1,6 @@
 package de.hglabor.plugins.ffa.util;
 
-import de.hglabor.Localization.Localization;
+import de.hglabor.utils.localization.Localization;
 import de.hglabor.plugins.ffa.Main;
 import de.hglabor.plugins.kitapi.config.KitApiConfig;
 import org.bukkit.Bukkit;
@@ -60,10 +60,12 @@ public final class ScoreboardFactory {
     }
 
     public static void updateEntry(ScoreboardPlayer scoreboardPlayer, String name, String prefix, String suffix) {
-        Team team = scoreboardPlayer.getScoreboard().getTeam(name);
-        if (team != null) {
-            team.setPrefix(prefix);
-            team.setSuffix(suffix);
+        if (scoreboardPlayer != null && scoreboardPlayer.getScoreboard() != null) {
+            Team team = scoreboardPlayer.getScoreboard().getTeam(name);
+            if (team != null) {
+                team.setPrefix(prefix);
+                team.setSuffix(suffix);
+            }
         }
     }
 

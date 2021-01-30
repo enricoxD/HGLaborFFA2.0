@@ -5,7 +5,7 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.Vector2;
 import com.sk89q.worldedit.regions.CylinderRegion;
-import de.hglabor.Localization.Localization;
+import de.hglabor.utils.localization.Localization;
 import de.hglabor.plugins.ffa.Main;
 import de.hglabor.plugins.ffa.util.TimeConverter;
 import de.hglabor.plugins.kitapi.util.RandomCollection;
